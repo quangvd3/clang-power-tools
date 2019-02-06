@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <meta name="description" content="Clang Power Tools : Bringing clang-tidy magic to Visual Studio C++ developers">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" type="text/css" media="screen" href="/assets/css/style.css?v=a2815e6ec0e94b1e1870e178fdb0c6e8ee333ca7">
+
+<!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Tips &amp; Frequently Asked Questions | Clang Power Tools</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="Tips &amp; Frequently Asked Questions" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Bringing clang-tidy magic to Visual Studio C++ developers" />
+<meta property="og:description" content="Bringing clang-tidy magic to Visual Studio C++ developers" />
+<link rel="canonical" href="https://clangpowertools.com/QaA.html" />
+<meta property="og:url" content="https://clangpowertools.com/QaA.html" />
+<meta property="og:site_name" content="Clang Power Tools" />
+<script type="application/ld+json">
+{"@type":"WebPage","url":"https://clangpowertools.com/QaA.html","headline":"Tips &amp; Frequently Asked Questions","description":"Bringing clang-tidy magic to Visual Studio C++ developers","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+        
+          <a id="forkme_banner" href="https://github.com/Caphyon/clang-power-tools">View on GitHub</a>
+      
+          <table style="border: none; border-style: none; border-collapse: collapse;">
+            <tr style="border: none; border-style: none;"> 
+              <td style="border: none; border-style: none; vertical-align: middle;"><a href="http://www.clangpowertools.com"><img src="images/ClangPowerTools.png" height="80" style="border: none;"></a></td> 
+              <td style="border: none; border-style: none; vertical-align: middle;"><h1 id="project_title">Clang Power Tools</h1></td> 
+            </tr>
+          </table>
+          
+          <h2 id="project_tagline">Bringing clang-tidy magic to Visual Studio C++ developers</h2>
+          
+          <section id="Social" style="position: absolute; width: 170px; z-index: 10; bottom: -20px; right: 0; height: 70px;"/>
+            <a href="https://twitter.com/ClangPowerTools" data-tooltip="Twitter" rel="nofollow" target="_blank">
+              <svg width="80" height="50" viewBox="0 0 416 448" fill="#55acee">
+                <path
+                  d="M405 102q-16.75 24.5-40.5 41.75 0.25 3.5 0.25 10.5 0 32.5-9.5 64.875t-28.875 62.125-46.125 52.625-64.5 36.5-80.75 13.625q-67.75 0-124-36.25 8.75 1 19.5 1 56.25 0 100.25-34.5-26.25-0.5-47-16.125t-28.5-39.875q8.25 1.25 15.25 1.25 10.75 0 21.25-2.75-28-5.75-46.375-27.875t-18.375-51.375v-1q17 9.5 36.5 10.25-16.5-11-26.25-28.75t-9.75-38.5q0-22 11-40.75 30.25 37.25 73.625 59.625t92.875 24.875q-2-9.5-2-18.5 0-33.5 23.625-57.125t57.125-23.625q35 0 59 25.5 27.25-5.25 51.25-19.5-9.25 28.75-35.5 44.5 23.25-2.5 46.5-12.5z"/>
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/ClangPowerTools" data-tooltip="Facebook" rel="nofollow" target="_blank">
+              <svg width="80" height="50" viewBox="0 0 256 448" fill="#3b5998">
+                <path
+                  d="M239.75 3v66h-39.25q-21.5 0-29 9t-7.5 27v47.25h73.25l-9.75 74h-63.5v189.75h-76.5v-189.75h-63.75v-74h63.75v-54.5q0-46.5 26-72.125t69.25-25.625q36.75 0 57 3z"/>
+              </svg>
+            </a>
+          </section>
+          
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="tips--frequently-asked-questions">Tips &amp; Frequently Asked Questions</h1>
+
+<h3 id="-does-clang-power-tools-support-clang-format-">👉 Does Clang Power Tools support <code class="highlighter-rouge">clang-format</code> ?</h3>
+
+<p>Yes. Starting with version 3.0 Clang Power Tools VS extension has built-in support for <strong><a href="https://clang.llvm.org/docs/ClangFormat.html">clang-format</a></strong><br />
+Auto-format source file on save, configurable <a href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html">style options</a>, file extension rules, etc.</p>
+
+<h3 id="-what-clangllvm-tools-are-supported-by-clang-power-tools-workflows-">👉 What Clang/LLVM tools are supported by Clang Power Tools workflows ?</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">clang++</code>      - Clang compile (syntax-only)</li>
+  <li><code class="highlighter-rouge">clang-tidy</code>   - Clang Tidy (checks, auto-fixes, modernizing code, static analysis)</li>
+  <li><code class="highlighter-rouge">clang-format</code> - source code formating (auto format on save)</li>
+</ul>
+
+<h3 id="-do-i-need-to-install-llvm-for-clang-power-tools-to-work-">👉 Do I need to install LLVM for Clang Power Tools to work ?</h3>
+
+<p>Yes. 
+Download and install <strong>Clang for Windows</strong> (LLVM pre-built binary)<br />
+<a href="http://releases.llvm.org/download.html">releases.llvm.org/download.html</a><br />
+Eg. <a href="http://releases.llvm.org/7.0.1/LLVM-7.0.1-win64.exe">LLVM-7.0.1-win64</a></p>
+
+<p>We will automatically load clang from the default installation path <em>C:\Program Files\LLVM</em>. If you prefer to use a different location you must manually add the <strong>bin</strong> folder to <strong>PATH</strong>.</p>
+
+<h3 id="-what-versions-of-llvm-are-supported-by-clang-power-tools-">👉 What versions of LLVM are supported by Clang Power Tools ?</h3>
+
+<p>We tested Clang Power Tools with LLVM <code class="highlighter-rouge">3.9.x</code>, <code class="highlighter-rouge">4.0.x</code>, <code class="highlighter-rouge">5.0.x</code>, <code class="highlighter-rouge">6.0.x</code> and <code class="highlighter-rouge">7.0.x</code></p>
+
+<h3 id="-how-to-deal-with-warnings-from-systemthird-party-headers-">👉 How to deal with warnings from system/third-party headers ?</h3>
+
+<p>Until v2.6, we’ve used the <code class="highlighter-rouge">%INCLUDE%</code> environment variable for setting clang include directories.
+That was equivalent to using <code class="highlighter-rouge">-isystem</code> for each directory.</p>
+
+<p>Unfortunately, this caused headers included relative to those include directories to be ignored 
+when running <strong>compiling/tidying</strong> because they were treated as <strong>system headers</strong>.</p>
+
+<p>Having this brought to our attention, going forward we will use <code class="highlighter-rouge">-I</code> and <code class="highlighter-rouge">-isystem</code> to pass include 
+directories to <strong>clang</strong>, with the following defaults:</p>
+<ul>
+  <li>include directories            passed using <code class="highlighter-rouge">-isystem</code></li>
+  <li>additional include directories passed using <code class="highlighter-rouge">-I</code></li>
+</ul>
+
+<p>Q: What does this mean?  <br />
+   A: You’ll most likely see <strong>new warnings</strong> when <strong>compiling</strong> or <strong>tidying</strong> your code-base.</p>
+
+<p>Q: Will my build fail?     <br />
+   A: Only if you have specified <code class="highlighter-rouge">-Werror</code> (treat warnings as errors).</p>
+
+<p>Q: What should I do?   <br />
+   A: - Make sure to include third party library dependencies via the <strong>Include directories</strong> project option.
+      <strong>Additional include directories</strong> should point only to code you can modernize.   <br />
+      - Resolve remaining warnings related to your code.</p>
+
+<p>Q: Can I use <strong>ClangPowerTools</strong> using the <strong>old behavior</strong>?   <br />
+   A: Yes. We’ve added, for compatibility reasons, a <strong>UI option</strong> that allows clang to <strong>treat 
+      additional includes as system headers</strong>. Keep in mind this means we will potentially 
+      miss some of your headers when calling clang.</p>
+
+<p>You may want to use this option if using <code class="highlighter-rouge">-Werror</code> (treating warnings as errors) until you’ve 
+   reorganized your includes, since any new warnings will break your build.</p>
+
+<p>Q: What about the <strong>continuous integration script</strong> (clang-build.ps1)?   <br />
+   A: You can specify the <code class="highlighter-rouge">-treat-sai</code> switch and it will have the old behavior.</p>
+
+<h3 id="-did-you-know-you-can-automatically-run-clang-compile-on-the-current-source-file-after-each-msvc-compilation-">💡 Did you know you can automatically run Clang compile on the current source file after each MSVC compilation ?</h3>
+
+<p>This option was a real game changer for our team, because developers often broke CI build pipelines (<em>Clang</em> build). 
+<em>Scenario:</em><br />
+Developer compiles code in Visual Studio (<code class="highlighter-rouge">/W4 /WX</code>) ✔️ … push commit … CI build pipeline …. broken <strong>Clang</strong> build 🔥<br />
+After enabling this option (from <em>Settings</em>), developers <em><strong>immediately</strong></em> see when they compile a source file from VS if it also works in Clang. Each successful MSVC <strong>compile</strong> is automatically followed by a Clang compile.</p>
+
+<h3 id="-where-can-i-see-detailed-information-about-clang-tidy-checks-">👉 Where can I see detailed information about clang-tidy checks ?</h3>
+
+<p>A list of available checks that <code class="highlighter-rouge">clang-tidy</code> can perform:<br />
+<a href="https://clang.llvm.org/extra/clang-tidy/checks/list.html">clang.llvm.org/extra/clang-tidy/checks/list</a></p>
+
+<h3 id="-did-you-know-you-can-auto-tidy-code-on-save-">💡 Did you know you can auto tidy code on save ?</h3>
+
+<p>There is a setting (off by default) that enables <em>automatic</em> <code class="highlighter-rouge">clang-tidy</code> (fix) when the current source file is saved.</p>
+
+<h3 id="-did-you-know-you-can-undo-all-the-changes-performed-by-clang-tidy-">💡 Did you know you can UNDO all the changes performed by clang-tidy ?</h3>
+
+<p>After performing <code class="highlighter-rouge">clang-tidy</code> on a source file <strong>opened</strong> in the VS editor, you can Undo the tidy changes (atomically) by hitting <code class="highlighter-rouge">Ctrl+Z</code></p>
+
+<h3 id="-how-can-i-use-clang-static-analyzer-">👉 How can I use Clang Static Analyzer ?</h3>
+
+<p>Clang Static Analyzer was included into <code class="highlighter-rouge">clang-tidy</code> some time ago.
+As a result, you can use Clang Power Tools to run all static analyzer checks from Clang.
+Check our extension settings panel, in the Tidy sub-section, scroll to see and ENABLE all the checks starting with: “clang-analyzer-“</p>
+
+<p>More details here:<br />
+<a href="https://clang-analyzer.llvm.org/available_checks.html">clang-analyzer.llvm.org/available_checks</a></p>
+
+<h3 id="-does-clang-power-tools-support-automatic-checking-of-cppcoreguidelines-">👉 Does Clang Power Tools support automatic checking of CppCoreGuidelines ?</h3>
+
+<p>Yes. By leveraging <code class="highlighter-rouge">clang-tidy</code> support for checking <a href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md">CppCoreGuidelines</a>.<br />
+You can use the <code class="highlighter-rouge">cppcoreguidelines-*</code> filter from Clang Power Tools <em>settings</em>, to select CppCoreGuidelines from the available clang-tidy <a href="https://clang.llvm.org/extra/clang-tidy/checks/list.html">checks</a>.</p>
+
+<h3 id="-if-i-want-to-use-a-clang-tidy-file-where-do-i-put-that-configuration-file-on-the-file-system">👉 If I want to use a .clang-tidy file, where do I put that configuration file on the file system?</h3>
+
+<p><code class="highlighter-rouge">clang-tidy</code> searches for the config file starting from the given/input source file directory, going up .. until it finds a .clang-tidy file (stops at drive root). This is the standard clang-tidy lookup mechanism.<br />
+FYI, Clang Power Tools has a setting related to this workflow:<br />
+VS Options &gt; Clang Power Tools &gt; Tidy &gt; Options &gt; Use checks from: (combo-box)</p>
+
+<h3 id="-how-do-i-configure-options-for-specific-clang-tidy-checks-">👉 How do I configure options for specific clang-tidy checks ?</h3>
+
+<p>Configuration options for specific clang-tidy checks can be specified via the <code class="highlighter-rouge">.clang-tidy</code> configuration file.<br />
+Eg.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Checks:          '-*,some-check'  
+WarningsAsErrors: ''  
+HeaderFilterRegex: '.*'  
+FormatStyle:     none  
+CheckOptions:  
+  - key:             some-check.SomeOption  
+    value:           'some value'  
+...
+</code></pre></div></div>
+
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+      
+      <section id="SocialF" style="position: absolute; width: 170px; z-index: 10; bottom: 0px; right: 0; height: 70px;"/>
+        <a href="https://twitter.com/ClangPowerTools" data-tooltip="Twitter" style="text-decoration: none;" rel="nofollow" target="_blank">
+          <svg width="80" height="50" viewBox="0 0 416 448" fill="#55acee">
+            <path
+              d="M405 102q-16.75 24.5-40.5 41.75 0.25 3.5 0.25 10.5 0 32.5-9.5 64.875t-28.875 62.125-46.125 52.625-64.5 36.5-80.75 13.625q-67.75 0-124-36.25 8.75 1 19.5 1 56.25 0 100.25-34.5-26.25-0.5-47-16.125t-28.5-39.875q8.25 1.25 15.25 1.25 10.75 0 21.25-2.75-28-5.75-46.375-27.875t-18.375-51.375v-1q17 9.5 36.5 10.25-16.5-11-26.25-28.75t-9.75-38.5q0-22 11-40.75 30.25 37.25 73.625 59.625t92.875 24.875q-2-9.5-2-18.5 0-33.5 23.625-57.125t57.125-23.625q35 0 59 25.5 27.25-5.25 51.25-19.5-9.25 28.75-35.5 44.5 23.25-2.5 46.5-12.5z"/>
+          </svg>
+        </a>
+        <a href="https://www.facebook.com/ClangPowerTools" data-tooltip="Facebook" style="text-decoration: none;" rel="nofollow" target="_blank">
+          <svg width="80" height="50" viewBox="0 0 256 448" fill="#3b5998">
+            <path
+              d="M239.75 3v66h-39.25q-21.5 0-29 9t-7.5 27v47.25h73.25l-9.75 74h-63.5v189.75h-76.5v-189.75h-63.75v-74h63.75v-54.5q0-46.5 26-72.125t69.25-25.625q36.75 0 57 3z"/>
+          </svg>
+        </a>
+      </section>
+          
+        
+      
+        <p class="copyright"> Clang Power Tools project is maintained by <a href="https://caphyon.github.io">Caphyon</a> </p>
+        
+        
+      </footer>
+    </div>
+
+    
+  </body>
+</html>
