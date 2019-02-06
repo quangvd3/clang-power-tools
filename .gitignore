@@ -26,3 +26,8 @@ bld/
 
 .vs/
 .DS_Store
+
+# Build system
+node_modules
+package-lock.json
+www/.html
