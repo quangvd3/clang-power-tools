@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "pug src/pages --out www",
-    "watch": "nodemon -x \"npm run build\"",
+    "watch": "onchange \"src/pages\" -- npm run build",
     "serve": "http-server ./www",
     "start": "npm run build && npm run serve",
     "deploy:s3": "s3-deploy './www/**' ---cwd './www' --bucket s3://advinst-clang",
@@ -33,7 +33,7 @@
   "homepage": "https://github.com/Caphyon/clang-power-tools#readme",
   "devDependencies": {
     "http-server": "0.11.1",
-    "nodemon": "1.18.9",
+    "onchange": "5.2.0",
     "pug-cli": "1.0.0-alpha6",
     "s3-deploy": "1.2.1"
   }
