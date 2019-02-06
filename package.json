@@ -1,0 +1,40 @@
+{
+  "name": "clang-power-tools",
+  "version": "4.7.0",
+  "description": "Clang Power Tools is a free Visual Studio extension helping Visual Studio C++ developers leverage Clang/LLVM tools.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "pug src/pages --out www",
+    "watch": "nodemon -x \"npm run build\"",
+    "serve": "http-server ./www",
+    "start": "npm run build && npm run serve",
+    "deploy:s3": "s3-deploy './www/**' ---cwd './www' --bucket s3://advinst-clang",
+    "deploy": "npm run build && npm run deploy:s3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Caphyon/clang-power-tools.git"
+  },
+  "keywords": [
+    "clang",
+    "vs",
+    "visual",
+    "studio",
+    "extension"
+  ],
+  "author": "Caphyon",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/Caphyon/clang-power-tools/issues"
+  },
+  "homepage": "https://github.com/Caphyon/clang-power-tools#readme",
+  "devDependencies": {
+    "http-server": "0.11.1",
+    "nodemon": "1.18.9",
+    "pug-cli": "1.0.0-alpha6",
+    "s3-deploy": "1.2.1"
+  }
+}
