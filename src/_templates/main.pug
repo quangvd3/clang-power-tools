@@ -1,0 +1,15 @@
+html
+  head
+    include ../_includes/head.pug
+    include ../_includes/seo.pug
+  body
+    block header
+      include ../_includes/header.pug
+    block main
+      #main_content_wrap.outer
+        section#main_content.inner
+          block content
+    block foot
+      include ../_includes/footer.pug
+    block scripts
+      include ../_includes/analytics.pug
