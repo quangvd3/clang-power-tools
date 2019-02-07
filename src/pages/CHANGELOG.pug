@@ -1,1 +1,670 @@
 extends ../_templates/main.pug
+
+block content
+  h1 Version History
+  h3 Clang Power Tools 4.7
+  p
+    em February 4, 2019
+  p Improvements:
+  ul
+    li Support for custom Clang Tidy executable path
+  p Bugs:
+  ul
+    li The custom path for Clang Format cannot be changed after it was set
+    li Output window did not display the Clang output properly
+    li Unhandled exception in the status-bar caused errors
+  h3 Clang Power Tools 4.6
+  p
+    em January 17, 2019
+  p Improvements:
+  ul
+    li Select 
+      <code>files to ignore</code>  at compile and format from the Context Menu
+  p Bugs:
+  ul
+    li Wrong format applied when 
+      <code>clang-tidy and clang-format on save</code>  are checked
+    li Access rights of the PowerShell script caused warning messages
+    li Clang Format didn’t properly handle selected source
+    li Crash when some options are missing from the config file
+  h3 Clang Power Tools 4.5
+  p
+    em December 12, 2018
+  p Improvements:
+  ul
+    li Status bar support for Clang Format
+    li Support for expanding Project Item Groups
+  p Bugs:
+  ul
+    li Clang commands saving event caused changes on .sln level
+    li Clang Format formats CMakeLists.txt file
+    li [System.IO.Directory]::GetDirectories() calls not working
+  h3 Clang Power Tools 4.4
+  p
+    em November 27, 2018
+  p Improvements:
+  ul
+    li Speed up the errors detection by sending refresh signals to the VS Error List
+    li Include the new 
+      <code>LLVM 7.0 clang tidy checks</code>
+  p Bugs:
+  ul
+    li The checks from 
+      <code>.clang-tidy</code>  config file are ignored
+    li Clang Tidy on save does not respond after a VS Solution is reopened
+    li Extension upgrade is not detected
+  h3 Clang Power Tools 4.3.2
+  p
+    em November 13, 2018
+  p Bugs:
+  ul
+    li New extension dependencies caused crashes
+  h3 Clang Power Tools 4.3.1
+  p
+    em November 9, 2018
+  p Bugs:
+  ul
+    li Fix bug triggering regex error when using absolute paths in command line args
+  h3 Clang Power Tools 4.3
+  p
+    em November 7, 2018
+  p Improvements:
+  ul
+    li Support for apply 
+      <code>Clang-Format</code>  on 
+      <code>VS Projects</code>
+    li Support for apply 
+      <code>Clang-Format</code>  on 
+      <code>VS Solution</code>
+  p Bugs:
+  ul
+    li Asynchronous writing in the 
+      <code>Output Pane</code>  caused crashes
+    li Sometimes crash when clang commands are executed
+  h3 Clang Power Tools 4.2.1
+  p
+    em October 29, 2018
+  p Bugs:
+  ul
+    li After closing and reopening a VS Solution the clang commands did not work as expected
+    li Clang-Format works just for files that are included in a VS project
+    li Format after tidy option is not responding
+    li VS Services are not registered in the right order
+  h3 Clang Power Tools 4.2
+  p
+    em October 15, 2018
+  p Improvements:
+  ul
+    li Support for PCH configuration at file-level
+  p Bugs:
+  ul
+    li VS Extension is not completely registered immediately after the VS solution was loaded
+    li Wrong detection of VS 2015 when VS 2013 toolset is being used
+    li Parallel processing causing file corruption for Tidy Fix
+  h3 Clang Power Tools 4.1
+  p
+    em October 9, 2018
+  p Improvements:
+  ul
+    li Optimize the VS services access
+    li Improve clang commands loading
+  p Bugs:
+  ul
+    li Double quotes incorrectly escaped in preprocessor definitions (v4.0 regression)
+    li …\ include directories not being correctly included (v4.0 regression)
+    li Preprocessor definition characters being mistaken for comparison operators (v4.0 regression)
+    li PCH detection not working when project force includes header directly at pch cpp level
+    li Crash when VS services are not available
+    li Clang commands registration does not always work
+    li Project field from Error List sometimes is empty
+  h3 Clang Power Tools 4.0
+  p
+    em September 20, 2018
+  p Improvements:
+  ul
+    li Support for 
+      <code>CPT configuration files</code>  (see sample 
+      <code>cpt.config</code>  in github repository)
+  p Bugs:
+  ul
+    li Changed files are permanently open in the editor after 
+      <code>clang-tidy</code>  command
+    li Crash when changing the 
+      <code>Show issues generated</code>  option from Visual Studio
+    li Preprocessor definitions for raw string literals containing escaped quotes not working
+    li Calls to 
+      <code>Exists()</code>  using single quotes not resolved correctly
+  h3 Clang Power Tools 3.9.2
+  p
+    em August 29, 2018
+  p Bugs:
+  ul
+    li Directory.Build.props global property sheet not loaded
+    li Unicode project character set detection not working for some projects
+    li
+      <code>Output Window</code>  does not display the entire output
+    li Clang commands are not disabled when the VS build is running
+    li Selecting 
+      <code>system include directories</code>  did not worked for 
+      <code>Treat additional includes as</code>  option
+  h3 Clang Power Tools 3.9.1
+  p
+    em August 16, 2018
+  p Bugs:
+  ul
+    li Crash when showing output window notifications
+  h3 Clang Power Tools 3.9
+  p
+    em August 13, 2018
+  p Improvements:
+  ul
+    li
+      <code>Project / File to ignore</code>  support for directory matching
+    li Display names of ignored projects at beginning of log
+  p Bugs:
+  ul
+    li MSBuild directory properties malfunctioning in some property sheets
+    li Project specific variables not cleared when compilation failed
+    li Newly created projects not detected by VS Extension
+    li Clang output sometimes formatted wrong in the VS Output Window
+    li Crash when switching Error List between 
+      <code>Build Only</code> , 
+      <code>Build + IntelliSense</code>  and 
+      <code>IntelliSense Only</code>
+  h3 Clang Power Tools 3.8
+  p
+    em July 27, 2018
+  p Improvements:
+  ul
+    li Improved error detection
+  p Bugs:
+  ul
+    li Projects with large number of include directories could not be compiled
+    li Closed files remained closed after the clang-tidy fix command caused changes
+    li Error List displayed duplicates errors
+    li Output Window did not displayed the entire content
+    li VS reload file mechanism for external changes remains disabled after the clang-tidy fix command
+  h3 Clang Power Tools 3.7.1
+  p
+    em July 4, 2018
+  p Bugs:
+  ul
+    li Missing trailing slashes for MakeRelative() special cases
+  h3 Clang Power Tools 3.7
+  p
+    em July 3, 2018
+  p Improvements:
+  ul
+    li Optimize loading speed of the VS Extension
+    li Optimize UI responsiveness when a command is executed
+    li Display a dedicated command for 
+      <code>Clang Tidy-Fix</code>  action
+    li (Powershell Script) 
+      <code>-file</code>  script parameter now accepts header files (.H), alongside source files This triggers compilation for all source files (.CPP) that include them
+  p Bugs:
+  ul
+    li vcpkg package include directories not being detected
+    li MSBuild::MakeRelative() property function not working
+    li ‘C99 was disabled in PCH file’ error when compiling .C files
+    li v140 projects not compiled using appropiate VS2017 toolset
+  h3 Clang Power Tools 3.6
+  p
+    em June 18, 2018
+  p Improvements:
+  ul
+    li (Powershell Script) Automatically detect 
+      <code>Visual Studio SKU</code>  when not passed as script argument
+    li
+      <code>Quick search</code>  support for the 
+      <code>Predefined checks</code>  option page
+  p Bugs:
+  ul
+    li Error when compiling projects without preprocessor definitions
+    li Regex matching broken for 
+      <code>File Ignore</code>  and 
+      <code>Project Ignore</code>  filters
+    li The clang-format custom path property did not persisted
+    li Fix the check mechanism of the 
+      <code>Use custom executable file</code>  checkbox
+  h3 Clang Power Tools 3.5
+  p
+    em June 5, 2018
+  p Improvements:
+  ul
+    li Support for compiling 
+      <code>C files</code>
+  p Bugs:
+  ul
+    li The 
+      <code>File Ignore</code>  and 
+      <code>Project Ignore</code>  filters didn’t worked
+    li
+      <code>Clang Compile</code>  and 
+      <code>Clang Tidy</code>  commands crashed when extra white spaces and extra delimitaters were added in UI text fields
+    li Buttons have overlapped the text in the UI fields
+  h3 Clang Power Tools 3.4.2
+  p
+    em May 15, 2018
+  p Bugs:
+  ul
+    li Selecting elements from the 
+      <code>Tidy</code>  -> 
+      <code>Predefined Checks</code>  page has caused crashes
+  h3 Clang Power Tools 3.4.1
+  p
+    em May 15, 2018
+  p Bugs:
+  ul
+    li Auto clang-format on save did not work for upgraded installs
+  h3 Clang Power Tools 3.4
+  p
+    em May 14, 2018
+  p Improvements:
+  ul
+    li Updated “clang-format.exe” to the latest version 6.0.0
+    li Support to use different version of “clang-format.exe” from the one in the box
+    li Redesigned settings panel
+  p Bugs:
+  ul
+    li Errors in headers were shown multiple times if different folder delimiters were used
+  h3 Clang Power Tools 3.3.1
+  p
+    em April 24, 2018
+  p Bugs:
+  ul
+    li Clang output text was separated into multiple lines
+    li Source files with ExcludedFromBuild child property set to true were compiled
+    li Empty project files were not correctly handled
+  h3 Clang Power Tools 3.3
+  p
+    em March 29, 2018
+  p Improvements:
+  ul
+    li Improved responsiveness during lengthy operations
+    li Added support for filter errors by “Project” field in the Error List
+    li Cleanup errors when closing a project
+    li Use the whole file name of PCH cpp to detect PCH header directory
+  h3 Clang Power Tools 3.2.1
+  p
+    em March 23, 2018
+  p Bugs:
+  ul
+    li Clang compile fails when project has no Additional Include Directories
+    li Error line number from error list was displayed wrong
+  h3 Clang Power Tools 3.2
+  p
+    em March 22, 2018
+  p Improvements:
+  ul
+    li Added support for VS status bar
+    li Added clang-tidy checker to output window messages
+  p Bugs:
+  ul
+    li Last error message couldn’t be detected
+    li Consecutive error messages couldn’t be detected
+    li Did not work on Visual Studio 2017 Update 2 because vswhere does not support the -prerelease switch
+    li Did not work when stdafx.cpp contained commented #include lines
+    li Couldn’t detect default Configuration Platform if comment nodes were present in the 
+      <code>&lt;ItemGroup&gt;</code>  XML element
+    li PCH header couldn’t be detected when in a different physical location than that of PCH cpp
+    li PCH header couldn’t be detected if not present in project 
+      <code>&lt;ClInclude&gt;</code>  XML element
+    li Compilation stopped on PCH-creation errors even if -continue switch was present
+  h3 Clang Power Tools 3.1
+  p
+    em March 12, 2018
+  p Improvements:
+  ul
+    li Added support for [MSBuild]::GetDirectoryNameOfFileAbove
+    li Added support for clang format selection
+  p Bugs:
+  ul
+    li /MD and /MT project settings not propagated to clang
+  h3 Clang Power Tools 3.0.1
+  p
+    em March 2nd, 2018
+  p Bugs:
+  ul
+    li Visual Studio loses focus on selected items
+  h3 Clang Power Tools 3.0
+  p
+    em March 1st, 2018
+  p
+    strong NEW : Built-in support for 
+    strong
+    a(href="https://clang.llvm.org/docs/ClangFormat.html") clang-format Auto-format source file on save, configurable 
+    a(href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html") style options , file extension rules, etc.
+  p Improvements:
+  ul
+    li Disable the clang commands when VS build is running
+  p Bugs:
+  ul
+    li Automatic clang-tidy on save option was applying fixes even when Fix option was set to 
+      em false
+    li Running a command with different elements of VS selected (eg. properties window, toolbox) sometimes caused errors
+    li Clang compile and tidy commands were not disabled for source files not loaded in a project context
+    li Properly trim whitespace from #include paths
+    li Whitespaces in VS project name were not supported
+  h3 Clang Power Tools 2.8
+  p
+    em February 20, 2018
+  p Improvements:
+  ul
+    li Automatically run Clang-tidy when the current source file is saved
+    li Automatically run Clang compile on the current source file after successful MSVC compilation
+  p Bugs:
+  ul
+    li A project was saved even if it was not dirty
+    li Stop Clang command crashed all Powershell processes
+    li A single error found in a header was displayed multiple times
+    li COM objects caused errors when a command was running
+  h3 Clang Power Tools 2.7
+  p
+    em February 8, 2018
+  p Improvements:
+  ul
+    li Save all projects before running clang compile/tidy
+  p Bugs:
+  ul
+    li The 
+      <code>Treat additional includes as</code>  option was not loaded from the settings file
+    li The toolbar was hidden on the first install
+    li Source files / headers not detected when specified in property sheets
+  h3 Clang Power Tools 2.6
+  p
+    em January 29, 2018
+  p Until now, we’ve used the 
+    <code>%INCLUDE%</code>  environment variable for setting clang include directories. That was equivalent to using 
+    <code>-isystem</code>  for each directory.
+  p Unfortunately, this caused headers included relative to those include directories to be ignored when running 
+    strong compiling/tidying  because they were treated as 
+    strong system headers .
+  p Having this brought to our attention, going forward we will use 
+    <code>-I</code>  and 
+    <code>-isystem</code>  to pass include directories to 
+    strong clang , with the following defaults:
+  ul
+    li include directories            passed using 
+      <code>-isystem</code>
+    li additional include directories passed using 
+      <code>-I</code>
+  p Q: What does this mean? A: You’ll most likely see 
+    strong new warnings  when 
+    strong compiling  or 
+    strong tidying  your code-base.
+  p Q: Will my build fail? A: Only if you have specified 
+    <code>-Werror</code>  (treat warnings as errors).
+  p Q: What should I do? A: - Make sure to include third party library dependencies via the 
+    strong Include directories  project option.
+    strong Additional include directories  should point only to code you can modernize. - Resolve remaining warnings related to your code.
+  p Q: Can I use 
+    strong ClangPowerTools  using the 
+    strong old behavior ? A: Yes. We’ve added, for compatibility reasons, a 
+    strong UI option  that allows clang to 
+    strong treat additional includes as system headers . Keep in mind this means we will potentially miss some of your headers when calling clang.
+  p You may want to use this option if using 
+    <code>-Werror</code>  (treating warnings as errors) until you’ve reorganized your includes, since any new warnings will break your build.
+  p Q: What about the 
+    strong continuous integration script  (clang-build.ps1)? A: You can specify the 
+    <code>-treat-sai</code>  switch and it will have the old behavior.
+  p Improvements:
+  ul
+    li Additional includes are now treated as regular includes using 
+      <code>-I</code>
+  p Bugs:
+  ul
+    li Crash when using preprocessor definitions containing double quotes
+    li Wild card project file includes were not recognized
+    li Tooling detection did not work on Visual Studio pre-release versions
+  h3 Clang Power Tools 2.5.1
+  p
+    em January 17, 2018
+  p Bugs:
+  ul
+    li Fixed the unexpectedly Visual Studio session ending
+  h3 Clang Power Tools 2.5
+  p
+    em January 12, 2018
+  p Improvements:
+  ul
+    li Automatically show toolbar on the first time install
+  p Bugs:
+  ul
+    li Fixed errors detection
+    li Fixed commands execution when the project contains more files with the same name
+    li Crash when multiple SKUs of Visual Studio 2017 installed simultaneously
+    li Google.Test Nuget packages not working
+  h3 Clang Power Tools 2.4.1
+  p
+    em December 28, 2017
+  p Bugs:
+  ul
+    li Regression in 2.4.0 preventing use of clang-tidy on header files
+  h3 Clang Power Tools 2.4
+  p
+    em December 21, 2017
+  p Improvements:
+  ul
+    li Configurable header-filter for tidy-fix
+    li Option to run clang-tidy only on cpp-corresponding headers
+  p Bugs:
+  ul
+    li
+      <code>&lt;Choose&gt;</code>  project elements were not loaded
+    li Same-file appended project settings caused crash
+    li Wildcard-named property sheets were not loaded
+  h3 Clang Power Tools 2.3
+  p
+    em December 13, 2017
+  p Improvements:
+  ul
+    li Tidy operation mode: ability to switch between explicitly specified tidy checks and .clang-tidy configuration files
+    li Use PCH for clang-tidy workflow
+  p Bugs:
+  ul
+    li Could not property detect C++17 standard from project
+    li Project parse issues for MsBuild string member function calls
+    li Files with extensions other than .cpp were not compiled from VS
+    li
+      <code>HasTrailingSlash</code>  MsBuild function was not recognized
+  h3 Clang Power Tools 2.2
+  p
+    em December 11, 2017
+  p Bugs:
+  ul
+    li Fixed the saving for user configurations from option pages
+    li Increased the number of compilable file types. Now supporting: .c , .cpp , .cc , .cxx , .c++ , .cp
+    li Could not be used in VS 2015 (regression in v2.1)
+    li Could not create PCH when using forced includes and stdafx.cpp did not manually include stdafx.h
+    li Could not handle multiple MSVC versions found in the same VS installation
+    li Project load error when a project condition contained more than one call to MSBuild 
+      <code>Exists()</code>
+    li Clang-tidy 
+      <code>-header-filter</code>  flag was sometimes behaving incorrectly, ignored header files
+  h3 Clang Power Tools 2.1
+  p
+    em December 7, 2017
+  p Improvements:
+  ul
+    li Possibility to abort clang compile and clang tidy commands
+    li Eliminated delay caused by .sln and .vcxproj file scanning
+    li Create PCH only for more than 2 cpps
+    li Detect C++ standard automatically from project. Default to C++14 if not set
+  p Bugs:
+  ul
+    li Environment variables were not used when evaluating MsBuild expressions
+    li MsBuild expressions didn’t work when starting with ! operator
+    li ForcedIncludes for clang compile were not working, regression in v2.0
+    li ForcedIncludes were not taken into account for clang-tidy
+    li Project > IncludePath was not taken into account for include directories
+    li Error occured when include directories contained empty values
+    li Fixed PCH crash when using Visual Studio 15.5 STL libraries (mscver 14.12.25827)
+    li Fixed the commands execution for default console application
+  h3 Clang Power Tools 2.0
+  p
+    em November 26, 2017
+  p Improvements:
+  ul
+    li Fully evaluate MsBuild conditions for project and property sheet XML data
+      ul
+        li XML nodes with conditions evaluated to false are ignored
+    li Project settings can now reference:
+      ul
+        li User defined macros
+          ul
+            li e.g. $(MY_MACRO_DIR)\bin$(MY_MACRO_FILE)
+        li Build-in macros:
+          ul
+            li $(VisualStudioVersion), $(ProjectDir), $(SolutionDir), $(Platform), $(Configuration), $(MSBuildProjectName), $(MSBuildProjectFullPath), $(MSBuildProjectDirectory), $(MSBuildThisFile), $(MSBuildThisFileName), $(MSBuildThisFileFullPath), $(MSBuildThisFileDirectory), $(MSBuildProgramFiles32)
+        li .NET expressions
+          ul
+            li e.g. $([System.DateTime]::Now.ToString(“yyyy.MM.dd”))
+    li Detect property sheets included in Directory.Build.props
+    li Automatically detect the project solution file
+  h3 Clang Power Tools 1.7.1
+  p
+    em November 20, 2017
+  p Bugs:
+  ul
+    li Fixed the support for 
+      <code>Track Active Item in Solution Explorer</code>  set to 
+      <code>Off</code>
+  h3 Clang Power Tools 1.7
+  p
+    em November 16, 2017
+  p Improvements:
+  ul
+    li Added support for 
+      <code>Track Active Item in Solution Explorer</code>  option set to 
+      <code>Off</code>
+    li Verbose-Mode now logs 
+      <code>clang-build.ps1</code>  and 
+      <code>clang++</code>  invocation arguments
+  p Bugs:
+  ul
+    li Fixed the 
+      <code>user settings saving</code>
+    li Fixed the script execution for clang-tidy options
+    li Moved 
+      <code>Clang Power Tools</code>  above the 
+      <code>Properties</code>  item in 
+      <code>Context Menu</code>
+  h3 Clang Power Tools 1.6
+  p
+    em November 9, 2017
+  p Improvements:
+  ul
+    li Improved handling of project value separator
+    li Used the active project configuration
+  p Bugs:
+  ul
+    li Fixed the commands launching from file tab
+    li Fixed the default tidy settings page
+    li Fixed the cleaning of all messages from Error tab when a command begins
+  h3 Clang Power Tools 1.5.1
+  p
+    em November 3rd, 2017
+  p Improvements:
+  ul
+    li Created dedicated option page for tidy checks
+    li Provided better defaults for “Tidy Checks” dialog
+  p Bugs:
+  ul
+    li Fixed script building for tidy checks
+  h3 Clang Power Tools 1.5
+  p
+    em November 1st, 2017
+  p Improvements:
+  ul
+    li Generalized property sheet usage for project data retrieval
+    li Detect auto property sheets (
+      a(href="https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build") Directory.Build.props ). Merging not supported
+    li Detect property sheets included indirectly, through other property sheets
+    li Automatically detect the first project configuration platform
+  h3 Clang Power Tools 1.4
+  p
+    em October 27, 2017
+  p Improvements:
+  ul
+    li Added verbose mode in settings
+    li Created Clang Power Tools toolbar
+  p Bugs:
+  ul
+    li Fixed logical core count detection on systems with more than one physical CPU
+    li Disabled the commands when another command is running
+    li Fixed MSCVER detection bug when VS is not installed in default location
+    li Added WinSDKVer defaults for when not mentioned in project
+    li Fixed error message when project does not include force include files
+  h3 Clang Power Tools 1.3.1
+  p
+    em October 23, 2017
+  p Bugs:
+  ul
+    li Allow the path to include any non-whitespace character
+    li Added support for project-specific force include files
+    li Added support for Win 8/8.1 SDKs
+    li Fix typo preventing detection of VS2015 install location
+    li Fixed crash when project has no files to compile
+  h3 Clang Power Tools 1.3
+  p
+    em October 19, 2017
+  p Improvements:
+  ul
+    li Added support for ignoring specific files
+    li Added support for treating warnings as errors
+    li Detect Visual Studio 2015 / 2017 custom installation paths
+    li Enabled compilation for all files included in the Vcxproj  <ClCompile>  section
+  p Bugs:
+  ul
+    li Fixed project detection when the project name from UI is different of the project name on the disk
+    li Prevents the Output window from stealing the focus
+    li Fixed the detection for modified files after clang tidy fix
+    li Fixed the “Project To Ignore” option
+  h3 Clang Power Tools 1.2
+  p
+    em October 13, 2017
+  p Improvements:
+  ul
+    li Added clang warnings and messages with line navigation in both output pane and error list
+    li Included clang notification(errors, warnings, messages) in Build Only category
+    li Formatted clang output
+  p Bugs:
+  ul
+    li Fixed clang error detection algorithm
+    li Fixed clang errors line navigation from output pane
+    li Fixed the vsix installer detection for VS2017
+  h3 Clang Power Tools 1.1
+  p
+    em October 8, 2017
+  p Improvements:
+  ul
+    li Support for Visual Studio 2015.
+    li Open the modified files after clang tidy format command
+    li Suppress the reload popup shown by the Visual Studio
+    li Integrated -quiet in the same way as other clag flags
+    li Generalized PCH support for more than stdafx.h
+  p Bugs:
+  ul
+    li Clean the output and errors before a new command and build action
+    li Fixed the include directories option
+    li Fixed error detection for error list
+    li Fixed LLVM detection mechanism from Visual Studio Extension
+    li Switched to -fix-errors when calling clang-tidy
+    li Removed restriction to CPP files when looking for ClCompile entries
+    li Fixed compilation when vcxproj has both 32 and 64 bit platform configrations
+  h3 Clang Power Tools 1.0.1
+  p
+    em September 30, 2017
+  p Improvements:
+  ul
+    li Automatically detect clang installation folder
+    li Support for projects without PCH/stdafx
+  p Bugs:
+  ul
+    li Fixed navigation to clang error in code editor
+    li Fixed clang error parse algorithm
+    li Fixed detection when lightweight solution load is enabled
+  h3 Clang Power Tools 1.0
+  p
+    em September 27, 2017
+  p First official release.
