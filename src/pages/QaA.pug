@@ -1,1 +1,120 @@
 extends ../_templates/main.pug
+
+block content
+  h1 Tips & Frequently Asked Questions
+  h3 👉 Does Clang Power Tools support 
+    <code>clang-format</code>  ?
+  p Yes. Starting with version 3.0 Clang Power Tools VS extension has built-in support for 
+    strong
+    a(href="https://clang.llvm.org/docs/ClangFormat.html") clang-format Auto-format source file on save, configurable 
+    a(href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html") style options , file extension rules, etc.
+  h3 👉 What Clang/LLVM tools are supported by Clang Power Tools workflows ?
+  ul
+    li
+      <code>clang++</code>       - Clang compile (syntax-only)
+    li
+      <code>clang-tidy</code>    - Clang Tidy (checks, auto-fixes, modernizing code, static analysis)
+    li
+      <code>clang-format</code>  - source code formating (auto format on save)
+  h3 👉 Do I need to install LLVM for Clang Power Tools to work ?
+  p Yes. Download and install 
+    strong Clang for Windows  (LLVM pre-built binary)
+    a(href="http://releases.llvm.org/download.html") releases.llvm.org/download.html Eg. 
+    a(href="http://releases.llvm.org/7.0.1/LLVM-7.0.1-win64.exe") LLVM-7.0.1-win64
+  p We will automatically load clang from the default installation path 
+    em C:\Program Files\LLVM . If you prefer to use a different location you must manually add the 
+    strong bin  folder to 
+    strong PATH .
+  h3 👉 What versions of LLVM are supported by Clang Power Tools ?
+  p We tested Clang Power Tools with LLVM 
+    <code>3.9.x</code> , 
+    <code>4.0.x</code> , 
+    <code>5.0.x</code> , 
+    <code>6.0.x</code>  and 
+    <code>7.0.x</code>
+  h3 👉 How to deal with warnings from system/third-party headers ?
+  p Until v2.6, we’ve used the 
+    <code>%INCLUDE%</code>  environment variable for setting clang include directories. That was equivalent to using 
+    <code>-isystem</code>  for each directory.
+  p Unfortunately, this caused headers included relative to those include directories to be ignored when running 
+    strong compiling/tidying  because they were treated as 
+    strong system headers .
+  p Having this brought to our attention, going forward we will use 
+    <code>-I</code>  and 
+    <code>-isystem</code>  to pass include directories to 
+    strong clang , with the following defaults:
+  ul
+    li include directories            passed using 
+      <code>-isystem</code>
+    li additional include directories passed using 
+      <code>-I</code>
+  p Q: What does this mean? A: You’ll most likely see 
+    strong new warnings  when 
+    strong compiling  or 
+    strong tidying  your code-base.
+  p Q: Will my build fail? A: Only if you have specified 
+    <code>-Werror</code>  (treat warnings as errors).
+  p Q: What should I do? A: - Make sure to include third party library dependencies via the 
+    strong Include directories  project option.
+    strong Additional include directories  should point only to code you can modernize. - Resolve remaining warnings related to your code.
+  p Q: Can I use 
+    strong ClangPowerTools  using the 
+    strong old behavior ? A: Yes. We’ve added, for compatibility reasons, a 
+    strong UI option  that allows clang to 
+    strong treat additional includes as system headers . Keep in mind this means we will potentially miss some of your headers when calling clang.
+  p You may want to use this option if using 
+    <code>-Werror</code>  (treating warnings as errors) until you’ve reorganized your includes, since any new warnings will break your build.
+  p Q: What about the 
+    strong continuous integration script  (clang-build.ps1)? A: You can specify the 
+    <code>-treat-sai</code>  switch and it will have the old behavior.
+  h3 💡 Did you know you can automatically run Clang compile on the current source file after each MSVC compilation ?
+  p This option was a real game changer for our team, because developers often broke CI build pipelines (
+    em Clang  build).
+    em Scenario: Developer compiles code in Visual Studio (
+    <code>/W4 /WX</code> ) ✔️ … push commit … CI build pipeline … broken 
+    strong Clang  build 🔥 After enabling this option (from 
+    em Settings ), developers 
+    em
+    strong immediately  see when they compile a source file from VS if it also works in Clang. Each successful MSVC 
+    strong compile  is automatically followed by a Clang compile.
+  h3 👉 Where can I see detailed information about clang-tidy checks ?
+  p A list of available checks that 
+    <code>clang-tidy</code>  can perform:
+    a(href="https://clang.llvm.org/extra/clang-tidy/checks/list.html") clang.llvm.org/extra/clang-tidy/checks/list
+  h3 💡 Did you know you can auto tidy code on save ?
+  p There is a setting (off by default) that enables 
+    em automatic  
+    <code>clang-tidy</code>  (fix) when the current source file is saved.
+  h3 💡 Did you know you can UNDO all the changes performed by clang-tidy ?
+  p After performing 
+    <code>clang-tidy</code>  on a source file 
+    strong opened  in the VS editor, you can Undo the tidy changes (atomically) by hitting 
+    <code>Ctrl+Z</code>
+  h3 👉 How can I use Clang Static Analyzer ?
+  p Clang Static Analyzer was included into 
+    <code>clang-tidy</code>  some time ago. As a result, you can use Clang Power Tools to run all static analyzer checks from Clang. Check our extension settings panel, in the Tidy sub-section, scroll to see and ENABLE all the checks starting with: “clang-analyzer-”
+  p More details here:
+    a(href="https://clang-analyzer.llvm.org/available_checks.html") clang-analyzer.llvm.org/available_checks
+  h3 👉 Does Clang Power Tools support automatic checking of CppCoreGuidelines ?
+  p Yes. By leveraging 
+    <code>clang-tidy</code>  support for checking 
+    a(href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md") CppCoreGuidelines . You can use the 
+    <code>cppcoreguidelines-*</code>  filter from Clang Power Tools 
+    em settings , to select CppCoreGuidelines from the available clang-tidy 
+    a(href="https://clang.llvm.org/extra/clang-tidy/checks/list.html") checks .
+  h3 👉 If I want to use a .clang-tidy file, where do I put that configuration file on the file system?
+  p
+    <code>clang-tidy</code>  searches for the config file starting from the given/input source file directory, going up … until it finds a .clang-tidy file (stops at drive root). This is the standard clang-tidy lookup mechanism. FYI, Clang Power Tools has a setting related to this workflow: VS Options > Clang Power Tools > Tidy > Options > Use checks from: (combo-box)
+  h3 👉 How do I configure options for specific clang-tidy checks ?
+  p Configuration options for specific clang-tidy checks can be specified via the 
+    <code>.clang-tidy</code>  configuration file. Eg.
+  pre.hljs
+    code. 
+      Checks:          '-*,some-check'  
+      WarningsAsErrors: ''  
+      HeaderFilterRegex: '.*'  
+      FormatStyle:     none  
+      CheckOptions:  
+        - key:             some-check.SomeOption  
+          value:           'some value'  
+      ...
