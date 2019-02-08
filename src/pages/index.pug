@@ -1,1 +1,79 @@
 extends ../_templates/main.pug
+
+block content
+  p
+    em Clang Power Tools  is a 
+    strong free  Visual Studio extension helping Visual Studio C++ developers leverage Clang/LLVM tools (
+    <code>clang++</code> , 
+    <code>clang-tidy</code>  and 
+    <code>clang-format</code> ), in order to perform various code transformations and fixes like modernizing code to C++11/14/17 and finding subtle latent bugs with its static analyzer and CppCoreGuidelines checks.
+  h3 Download
+  p Install this extension from 
+    a(href="https://marketplace.visualstudio.com/items?itemName=caphyon.ClangPowerTools") Visual Studio Marketplace
+  p Works with Visual Studio 2015 / 2017
+  h3 Version History
+  p
+    a(href="CHANGELOG.md") Release Notes
+  p How Clang Power Tools came to be: 
+    a(href="about.md") About
+  h3 Features
+  p 🎞️ 
+    a(href="demos.md") Video Showcase
+  p 📜 
+    strong Poster CppCon 2018  - 
+    a(href="https://github.com/CppCon/CppCon2018/raw/master/Posters/retrofit_cpp17_to_large_visual_studio_codebases/retrofit_cpp17_to_large_visual_studio_codebases__gabriel_diaconita__cppcon_2018.pdf") Retrofit C++17 to large Visual Studio codebases
+  p
+    strong Quick tab access
+    img(src="images/VSDemo1.png",alt="")
+  p
+    strong Toolbar menu
+    img(src="images/Toolbar1.png",alt="")
+  p
+    strong File select context-menu
+    img(src="images/VSDemo3.PNG",alt="")
+  p The extension can be configured via the standard Visual Studio options panel.
+    strong Tools  > 
+    strong Options  > 
+    strong Clang Power Tools You can customize the tool behavior as well as the clang++ compilation flags, clang-tidy checks, etc.
+  p
+    img(src="images/VSSettings.png",alt="")
+  p A list of available checks that clang-tidy can perform:
+  ul
+    li
+      a(href="https://clang.llvm.org/extra/clang-tidy/checks/list.html") clang-tidy checks
+    li
+      a(href="https://clang-analyzer.llvm.org/available_checks.html") clang-analyzer checks
+  p
+    strong Predefined clang-tidy checks
+    img(src="images/VSTidyChecks.PNG",alt="")
+  p
+    strong Custom clang-tidy wildcard checks
+  p
+    img(src="images/VSTidyChecksWildcard.PNG",alt="")
+  p 🆕 Built-in support for 
+    strong
+    a(href="https://clang.llvm.org/docs/ClangFormat.html") clang-format Auto-format source file on save, configurable 
+    a(href="https://clang.llvm.org/docs/ClangFormatStyleOptions.html") style options , file extension rules, etc.
+  h3 PowerShell script (for CI / automation):
+  ul
+    li
+      a(href="https://github.com/Caphyon/clang-power-tools/blob/master/ClangPowerTools/ClangPowerTools/clang-build.ps1") clang-build.ps1
+  h3 Requirements
+  p Visual Studio 2015 / 2017
+  p Download and install 
+    strong Clang for Windows  (LLVM pre-built binary)
+    a(href="http://releases.llvm.org/7.0.1/LLVM-7.0.1-win64.exe") LLVM-7.0.1-win64
+    a(href="http://releases.llvm.org/download.html") releases.llvm.org/download.html
+  p We will automatically load clang from the default installation path 
+    em C:\Program Files\LLVM . If you prefer to use a different location you must manually add the 
+    strong bin  folder to 
+    strong PATH .
+  p Windows 7: Download and install at least 
+    a(href="https://www.microsoft.com/en-us/download/details.aspx?id=34595") PowerShell 3.0  (already available on Windows 10)
+  h3 Tips / Q & A
+  p
+    a(href="QaA.md") Tips and Frequently asked questions
+  h3 Feedback
+  p If you have any suggestions or feedback about Clang Power Tools, or if you encounter any issues with your projects, please submit 
+    a(href="https://github.com/Caphyon/clang-power-tools/issues") here .
+  p We’re excited to hear about your experience using Clang Power Tools.
