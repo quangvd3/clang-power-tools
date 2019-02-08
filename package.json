@@ -11,8 +11,9 @@
     "watch": "onchange \"src/pages\" -- npm run build",
     "serve": "http-server ./www",
     "start": "npm run build && npm run serve",
-    "deploy:s3": "s3-deploy './www/**' ---cwd './www' --bucket s3://advinst-clang",
-    "deploy": "npm run build && npm run deploy:s3"
+    "deploy:invalidate-cdn": "aws cloudfront create-invalidation --distribution-id E78YHWTAB3YO9 --paths /*",
+    "deploy:s3": "aws s3 sync www s3://advinst-clang --delete ",
+    "deploy": "npm run build && npm run deploy:s3 && npm run deploy:invalidate-cdn"
   },
   "repository": {
     "type": "git",
