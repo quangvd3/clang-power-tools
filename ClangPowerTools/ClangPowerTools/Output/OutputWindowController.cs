@@ -9,7 +9,10 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Management.Automation;
+using System.Text;
 
 namespace ClangPowerTools.Output
 {
@@ -187,6 +190,168 @@ namespace ClangPowerTools.Output
     {
       MissingLlvmEvent?.Invoke(this, e);
     }
+
+
+
+
+    internal void OutputDataReceivedPowerShell(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      if (null == e.NewItems && 0 < e.NewItems.Count)
+        return;
+
+      if (mOutputContent.MissingLLVM)
+        return;
+
+      var dataResult = new StringBuilder();
+      foreach (var item in e.NewItems)
+        dataResult.Append(item);
+
+      if (VSConstants.S_FALSE == mOutputProcessor.ProcessData(dataResult.ToString(), Hierarchy, mOutputContent))
+      {
+        if (mOutputContent.MissingLLVM)
+        {
+          Write(new object(), new ClangCommandMessageEventArgs(ErrorParserConstants.kMissingLlvmMessage, false));
+          OnMissingLLVMDetected(new MissingLlvmEventArgs(true));
+        }
+        return;
+      }
+
+      Write(mOutputContent.Text);
+    }
+
+    internal void VerboseDataReceivedPowerShell(object sender, DataAddedEventArgs e)
+    {
+      var verboseRecord = ((PSDataCollection<VerboseRecord>)sender)[e.Index];
+      var dataResult = verboseRecord.ToString();
+
+      if (null == dataResult)
+        return;
+
+      if (mOutputContent.MissingLLVM)
+        return;
+
+      if (VSConstants.S_FALSE == mOutputProcessor.ProcessData(dataResult, Hierarchy, mOutputContent))
+      {
+        if (mOutputContent.MissingLLVM)
+        {
+          Write(new object(), new ClangCommandMessageEventArgs(ErrorParserConstants.kMissingLlvmMessage, false));
+          OnMissingLLVMDetected(new MissingLlvmEventArgs(true));
+        }
+        return;
+      }
+
+      Write(mOutputContent.Text);
+    }
+
+    internal void InformationDataReceivedPowerShell(object sender, DataAddedEventArgs e)
+    {
+      var informationRecord = ((PSDataCollection<InformationRecord>)sender)[e.Index];
+      var dataResult = informationRecord.ToString();
+
+      if (null == dataResult)
+        return;
+
+      if (mOutputContent.MissingLLVM)
+        return;
+
+      if (VSConstants.S_FALSE == mOutputProcessor.ProcessData(dataResult, Hierarchy, mOutputContent))
+      {
+        if (mOutputContent.MissingLLVM)
+        {
+          Write(new object(), new ClangCommandMessageEventArgs(ErrorParserConstants.kMissingLlvmMessage, false));
+          OnMissingLLVMDetected(new MissingLlvmEventArgs(true));
+        }
+        return;
+      }
+
+      Write(mOutputContent.Text);
+    }
+
+    internal void ProgressDataReceivedPowerShell(object sender, DataAddedEventArgs e)
+    {
+      var progressRecord = ((PSDataCollection<ProgressRecord>)sender)[e.Index];
+      var dataResult = progressRecord.ToString();
+
+      if (null == dataResult)
+        return;
+
+      if (mOutputContent.MissingLLVM)
+        return;
+
+      if (VSConstants.S_FALSE == mOutputProcessor.ProcessData(dataResult, Hierarchy, mOutputContent))
+      {
+        if (mOutputContent.MissingLLVM)
+        {
+          Write(new object(), new ClangCommandMessageEventArgs(ErrorParserConstants.kMissingLlvmMessage, false));
+          OnMissingLLVMDetected(new MissingLlvmEventArgs(true));
+        }
+        return;
+      }
+
+      Write(mOutputContent.Text);
+    }
+
+    internal void ErrorDataReceivedPowerShell(object sender, DataAddedEventArgs e)
+    {
+      var errorRecord = ((PSDataCollection<ErrorRecord>)sender)[e.Index];
+      var dataResult = errorRecord.ToString();
+
+      if (null == dataResult)
+        return;
+
+      if (mOutputContent.MissingLLVM)
+        return;
+
+      if (VSConstants.S_FALSE == mOutputProcessor.ProcessData(dataResult, Hierarchy, mOutputContent))
+      {
+        if (mOutputContent.MissingLLVM)
+        {
+          Write(new object(), new ClangCommandMessageEventArgs(ErrorParserConstants.kMissingLlvmMessage, false));
+          OnMissingLLVMDetected(new MissingLlvmEventArgs(true));
+        }
+        return;
+      }
+
+      Write(mOutputContent.Text);
+    }
+
+    internal void WaringDataReceivedPowerShell(object sender, DataAddedEventArgs e)
+    {
+      var warningRecord = ((PSDataCollection<WarningRecord>)sender)[e.Index];
+      var dataResult = warningRecord.ToString();
+
+      if (null == dataResult)
+        return;
+
+      if (mOutputContent.MissingLLVM)
+        return;
+
+      if (VSConstants.S_FALSE == mOutputProcessor.ProcessData(dataResult, Hierarchy, mOutputContent))
+      {
+        if (mOutputContent.MissingLLVM)
+        {
+          Write(new object(), new ClangCommandMessageEventArgs(ErrorParserConstants.kMissingLlvmMessage, false));
+          OnMissingLLVMDetected(new MissingLlvmEventArgs(true));
+        }
+        return;
+      }
+
+      Write(mOutputContent.Text);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     #endregion

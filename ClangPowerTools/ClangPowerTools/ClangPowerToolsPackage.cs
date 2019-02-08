@@ -326,9 +326,26 @@ namespace ClangPowerTools
       mOutputWindowController.MissingLlvmEvent += mCommandsController.OnMissingLLVMDetected;
       mOutputWindowController.CloseDataConnectionEvent += mCommandsController.OnCloseCommandDataConnection;
 
-      PowerShellWrapper.DataHandler += mOutputWindowController.OutputDataReceived;
-      PowerShellWrapper.DataErrorHandler += mOutputWindowController.OutputDataErrorReceived;
-      PowerShellWrapper.ExitedHandler += mOutputWindowController.ClosedDataConnection;
+
+
+      PowerShellWrapper.Initialize();
+      PowerShellWrapper.DataHandlerPowerShell += mOutputWindowController.OutputDataReceivedPowerShell;
+      PowerShellWrapper.VerboseHandlerPowerShell += mOutputWindowController.VerboseDataReceivedPowerShell;
+      PowerShellWrapper.InformationHandlerPowerShell += mOutputWindowController.InformationDataReceivedPowerShell;
+      PowerShellWrapper.ProgressHandlerPowerShell += mOutputWindowController.ProgressDataReceivedPowerShell;
+
+      PowerShellWrapper.ExitedHandlerPowerShell += mOutputWindowController.ErrorDataReceivedPowerShell;
+
+
+      PowerShellWrapper.WaringHandlerPowerShell += mOutputWindowController.WaringDataReceivedPowerShell;
+
+
+
+      //PowerShellWrapper.DataHandler += mOutputWindowController.OutputDataReceived;
+
+      //PowerShellWrapper.DataErrorHandler += mOutputWindowController.OutputDataErrorReceived;
+
+      //PowerShellWrapper.ExitedHandler += mOutputWindowController.ClosedDataConnection;
     }
 
     private void RegisterToVsEvents()
@@ -380,9 +397,9 @@ namespace ClangPowerTools
       mOutputWindowController.MissingLlvmEvent -= mCommandsController.OnMissingLLVMDetected;
       mOutputWindowController.CloseDataConnectionEvent -= mCommandsController.OnCloseCommandDataConnection;
 
-      PowerShellWrapper.DataHandler -= mOutputWindowController.OutputDataReceived;
-      PowerShellWrapper.DataErrorHandler -= mOutputWindowController.OutputDataErrorReceived;
-      PowerShellWrapper.ExitedHandler -= mOutputWindowController.ClosedDataConnection;
+      //PowerShellWrapper.DataHandler -= mOutputWindowController.OutputDataReceived;
+      //PowerShellWrapper.DataErrorHandler -= mOutputWindowController.OutputDataErrorReceived;
+      //PowerShellWrapper.ExitedHandler -= mOutputWindowController.ClosedDataConnection;
     }
 
     private void UnregisterFromVsEvents()

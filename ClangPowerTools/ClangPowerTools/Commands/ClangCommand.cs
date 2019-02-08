@@ -131,7 +131,7 @@ namespace ClangPowerTools
         if (null != vsSolution)
           ItemHierarchy = AutomationUtil.GetItemHierarchy(vsSolution as IVsSolution, item);
 
-        var process = PowerShellWrapper.Invoke(script, mRunningProcesses);
+        PowerShellWrapper.Invoke(script, mRunningProcesses);
 
         if (mMissingLLVM)
           break;
