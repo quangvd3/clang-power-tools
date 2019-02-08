@@ -326,20 +326,14 @@ namespace ClangPowerTools
       mOutputWindowController.MissingLlvmEvent += mCommandsController.OnMissingLLVMDetected;
       mOutputWindowController.CloseDataConnectionEvent += mCommandsController.OnCloseCommandDataConnection;
 
-
-
-      PowerShellWrapper.Initialize();
       PowerShellWrapper.DataHandlerPowerShell += mOutputWindowController.OutputDataReceivedPowerShell;
+      PowerShellWrapper.ErrorHandlerPowerShell += mOutputWindowController.ErrorDataReceivedPowerShell;
+      PowerShellWrapper.WaringHandlerPowerShell += mOutputWindowController.WaringDataReceivedPowerShell;
       PowerShellWrapper.VerboseHandlerPowerShell += mOutputWindowController.VerboseDataReceivedPowerShell;
       PowerShellWrapper.InformationHandlerPowerShell += mOutputWindowController.InformationDataReceivedPowerShell;
       PowerShellWrapper.ProgressHandlerPowerShell += mOutputWindowController.ProgressDataReceivedPowerShell;
 
-      PowerShellWrapper.ExitedHandlerPowerShell += mOutputWindowController.ErrorDataReceivedPowerShell;
-
-
-      PowerShellWrapper.WaringHandlerPowerShell += mOutputWindowController.WaringDataReceivedPowerShell;
-
-
+      PowerShellWrapper.Initialize();
 
       //PowerShellWrapper.DataHandler += mOutputWindowController.OutputDataReceived;
 

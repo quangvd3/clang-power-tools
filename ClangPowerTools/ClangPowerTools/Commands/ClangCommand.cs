@@ -8,6 +8,8 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace ClangPowerTools
 {
@@ -102,15 +104,15 @@ namespace ClangPowerTools
       var dte = VsServiceProvider.GetService(typeof(DTE)) as DTE2;
       dte.Solution.SaveAs(dte.Solution.FullName);
 
-      IBuilder<string> runModeScriptBuilder = new RunModeScriptBuilder();
-      runModeScriptBuilder.Build();
-      var runModeParameters = runModeScriptBuilder.GetResult();
+      //IBuilder<string> runModeScriptBuilder = new RunModeScriptBuilder();
+      //runModeScriptBuilder.Build();
+      //var runModeParameters = runModeScriptBuilder.GetResult();
 
       IBuilder<string> genericScriptBuilder = new GenericScriptBuilder(VsEdition, VsVersion, aCommandId);
       genericScriptBuilder.Build();
-      var genericParameters = genericScriptBuilder.GetResult();
+      //var genericParameters = genericScriptBuilder.GetResult();
 
-      string solutionPath = dte.Solution.FullName;
+      var solutionPath = dte.Solution.FullName;
 
       if (OutputWindowConstants.kCommandsNames.ContainsKey(aCommandId))
         StatusBarHandler.Status(OutputWindowConstants.kCommandsNames[aCommandId] + " started...", 1, vsStatusAnimation.vsStatusAnimationBuild, 1);
@@ -122,16 +124,26 @@ namespace ClangPowerTools
       {
         IBuilder<string> itemRelatedScriptBuilder = new ItemRelatedScriptBuilder(item);
         itemRelatedScriptBuilder.Build();
-        var itemRelatedParameters = itemRelatedScriptBuilder.GetResult();
+        //var itemRelatedParameters = itemRelatedScriptBuilder.GetResult();
 
         // From the first parameter is removed the last character which is mandatory "'"
         // and added to the end of the string to close the script
-        var script = $"{runModeParameters.Remove(runModeParameters.Length - 1)} {itemRelatedParameters} {genericParameters}'";
+        // var script = $"{runModeParameters.Remove(runModeParameters.Length - 1)} {itemRelatedParameters} {genericParameters}'";
+
+
+
+        var assemblyPath = Assembly.GetExecutingAssembly().Location;
+        var scriptDirectory = assemblyPath.Substring(0, assemblyPath.LastIndexOf('\\'));
+        var scriptPath = "& '" +Path.Combine(scriptDirectory, ScriptConstants.kScriptName) + "'";
+
+
+
 
         if (null != vsSolution)
           ItemHierarchy = AutomationUtil.GetItemHierarchy(vsSolution as IVsSolution, item);
 
-        PowerShellWrapper.Invoke(script, mRunningProcesses);
+        var arguments = genericScriptBuilder.GetResult() + itemRelatedScriptBuilder.GetResult();
+        PowerShellWrapper.Invoke(scriptPath, arguments);
 
         if (mMissingLLVM)
           break;

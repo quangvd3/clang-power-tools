@@ -52,7 +52,7 @@ namespace ClangPowerTools.Script
     /// Get the power shell main script(clang-build.ps1) file path
     /// </summary>
     /// <returns>Script file path</returns>
-    protected string GetScriptFilePath()
+    public string GetScriptFilePath()
     {
       var assemblyPath = Assembly.GetExecutingAssembly().Location;
       var scriptDirectory = assemblyPath.Substring(0, assemblyPath.LastIndexOf('\\'));
