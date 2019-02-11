@@ -7,8 +7,10 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "pug src/pages --out www",
-    "watch": "onchange \"src/pages\" -- npm run build",
+    "build:pug": "pug src/pages --out www",
+    "build:stylus": "stylus src/style.styl -o www/assets/css/style.css",
+    "build": "npm run build:pug || npm run build:stylus",
+    "watch": "onchange \"src\" -- npm run build",
     "serve": "http-server ./www",
     "start": "concurrently \"npm run serve\" \"npm run watch\"",
     "deploy:invalidate-cdn": "aws cloudfront create-invalidation --distribution-id E78YHWTAB3YO9 --paths /*",
@@ -37,6 +39,7 @@
     "http-server": "0.11.1",
     "onchange": "5.2.0",
     "pug-cli": "1.0.0-alpha6",
-    "s3-deploy": "1.2.1"
+    "s3-deploy": "1.2.1",
+    "stylus": "0.54.5"
   }
 }
