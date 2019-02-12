@@ -134,7 +134,7 @@ namespace ClangPowerTools
 
         var assemblyPath = Assembly.GetExecutingAssembly().Location;
         var scriptDirectory = assemblyPath.Substring(0, assemblyPath.LastIndexOf('\\'));
-        var scriptPath = "& '" +Path.Combine(scriptDirectory, ScriptConstants.kScriptName) + "'";
+        var scriptPath = Path.Combine(scriptDirectory, ScriptConstants.kScriptName);
 
 
 

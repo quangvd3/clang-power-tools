@@ -333,7 +333,7 @@ namespace ClangPowerTools
       PowerShellWrapper.InformationHandlerPowerShell += mOutputWindowController.InformationDataReceivedPowerShell;
       PowerShellWrapper.ProgressHandlerPowerShell += mOutputWindowController.ProgressDataReceivedPowerShell;
 
-      PowerShellWrapper.Initialize();
+      PowerShellWrapper.Initialize(this);
 
       //PowerShellWrapper.DataHandler += mOutputWindowController.OutputDataReceived;
 

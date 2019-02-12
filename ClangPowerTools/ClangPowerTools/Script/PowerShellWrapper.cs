@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.Shell;
+using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Management.Automation;
@@ -11,6 +12,7 @@ namespace ClangPowerTools
 
     private static PowerShell mPowerShell;
     private static ObservableCollection<string> mOutput;
+    private static AsyncPackage mAsyncPackage;
 
     #endregion
 
@@ -29,8 +31,9 @@ namespace ClangPowerTools
     #region Public Methods
 
 
-    public static void Initialize()
+    public static void Initialize(AsyncPackage aAsyncPackage)
     {
+      mAsyncPackage = aAsyncPackage;
       mPowerShell = PowerShell.Create();
       mOutput = new ObservableCollection<string>();
 
@@ -43,10 +46,12 @@ namespace ClangPowerTools
     }
 
 
-    public static void Invoke(string aScriptPath, string aArguments)
+    public async static void Invoke(string aScriptPath, string aArguments)
     {
+      await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(mAsyncPackage.DisposalToken);
+
       mPowerShell.AddScript("Set-ExecutionPolicy Unrestricted -Scope Process");
-      mPowerShell.AddScript(aScriptPath);
+      mPowerShell.AddCommand(aScriptPath);
       mPowerShell.AddArgument("-NoProfile -Noninteractive");
       mPowerShell.AddArgument(aArguments);
 
