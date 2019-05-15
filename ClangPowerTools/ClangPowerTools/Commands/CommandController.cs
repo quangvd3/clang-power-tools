@@ -200,6 +200,44 @@ namespace ClangPowerTools
       }
     }
 
+    public void OnAfterRunCommand(object sender, CloseDataStreamingEventArgs e)
+    {
+      if (e.IsStopped)
+      {
+        DisplayStoppedMessage(false);
+        return;
+      }
+
+      if (commandUILocation == CommandUILocation.ContextMenu)
+      {
+        DisplayFinishedMessage(false);
+      }
+      else if (commandUILocation == CommandUILocation.Toolbar && isActiveDocument)
+      {
+        DisplayFinishedMessage(false);
+      }
+    }
+
+    public void OnActiveDocumentCheck(object sender, ActiveDocumentEventArgs e)
+    {
+      if (e.IsActiveDocument == false)
+      {
+        DisplayNoActiveDocumentMessage(true);
+      }
+      isActiveDocument = e.IsActiveDocument;
+    }
+
+    public void OnFileHierarchyChanged(object sender, VsHierarchyDetectedEventArgs e)
+    {
+      HierarchyDetectedEvent?.Invoke(this, e);
+    }
+
+
+    public void OnMissingLLVMDetected(object sender, MissingLlvmEventArgs e)
+    {
+      MissingLlvmEvent?.Invoke(this, e);
+    }
+
     #endregion
 
 
@@ -274,50 +312,13 @@ namespace ClangPowerTools
       {
         DisplayFinishedMessage(true);
       }
-    }
-
-    public void OnAfterRunCommand(object sender, CloseDataStreamingEventArgs e)
-    {
-      if (e.IsStopped)
-      {
-        DisplayStoppedMessage(false);
-        return;
-      }
-
-      if (commandUILocation == CommandUILocation.ContextMenu)
-      {
-        DisplayFinishedMessage(false);
-      }
-      else if (commandUILocation == CommandUILocation.Toolbar && isActiveDocument)
-      {
-        DisplayFinishedMessage(false);
-      }
-    }
-
-    public void OnActiveDocumentCheck(object sender, ActiveDocumentEventArgs e)
-    {
-      if (e.IsActiveDocument == false)
-      {
-        DisplayNoActiveDocumentMessage(true);
-      }
-      isActiveDocument = e.IsActiveDocument;
-    }
+    }    
 
     private void OnClangCommandMessageTransfer(ClangCommandMessageEventArgs e)
     {
       ClangCommandMessageEvent?.Invoke(this, e);
     }
 
-    public void OnFileHierarchyChanged(object sender, VsHierarchyDetectedEventArgs e)
-    {
-      HierarchyDetectedEvent?.Invoke(this, e);
-    }
-
-
-    public void OnMissingLLVMDetected(object sender, MissingLlvmEventArgs e)
-    {
-      MissingLlvmEvent?.Invoke(this, e);
-    }
 
     private void DisplayStartedMessage(int aCommandId, bool clearOutput)
     {
@@ -365,87 +366,6 @@ namespace ClangPowerTools
       return string.Empty;
     }
 
-    #endregion
-
-
-    #region Events
-
-    /// <summary>
-    /// It is called before every command. Update the running state.  
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public void OnBeforeClangCommand(object sender, EventArgs e)
-    {
-      UIUpdater.Invoke(() =>
-      {
-        if (!(sender is OleMenuCommand command))
-          return;
-
-        if (VsServiceProvider.TryGetService(typeof(DTE), out object dte) && !(dte as DTE2).Solution.IsOpen)
-          command.Visible = command.Enabled = false;
-
-        else if (vsBuildRunning && command.CommandID.ID != CommandIds.kSettingsId)
-          command.Visible = command.Enabled = false;
-
-        else
-          command.Visible = command.Enabled = command.CommandID.ID != CommandIds.kStopClang ? !running : running;
-      });
-    }
-
-
-    /// <summary>
-    /// Set the VS running build flag to true when the VS build begin.
-    /// </summary>
-    /// <param name="Scope"></param>
-    /// <param name="Action"></param>
-    public void OnMSVCBuildBegin(vsBuildScope Scope, vsBuildAction Action) => vsBuildRunning = true;
-
-
-    /// <summary>
-    /// Set the VS running build flag to false when the VS build finished.
-    /// </summary>
-    /// <param name="Scope"></param>
-    /// <param name="Action"></param>
-    public async void OnMSVCBuildDone(vsBuildScope Scope, vsBuildAction Action)
-    {
-      vsBuildRunning = false;
-      await OnMSVCBuildSucceededAsync();
-    }
-
-
-    private async System.Threading.Tasks.Task OnMSVCBuildSucceededAsync()
-    {
-      if (!CompileCommand.Instance.VsCompileFlag)
-        return;
-
-      var exitCode = int.MaxValue;
-      if (VsServiceProvider.TryGetService(typeof(DTE), out object dte))
-        exitCode = (dte as DTE2).Solution.SolutionBuild.LastBuildInfo;
-
-      // VS compile detected errors and there is not necessary to run clang compile
-      if (0 != exitCode)
-      {
-        CompileCommand.Instance.VsCompileFlag = false;
-        return;
-      }
-
-      // Run clang compile after the VS compile succeeded
-
-      OnBeforeClangCommand(CommandIds.kCompileId);
-      await CompileCommand.Instance.RunClangCompileAsync(CommandIds.kCompileId, CommandUILocation.ContextMenu);
-      CompileCommand.Instance.VsCompileFlag = false;
-      OnAfterClangCommand();
-    }
-
-
-    public void OnBeforeSave(object sender, Document aDocument)
-    {
-      BeforeSaveClangTidy();
-      BeforeSaveClangFormat(aDocument);
-    }
-
-
     private void BeforeSaveClangTidy()
     {
       if (false == mSaveCommandWasGiven) // The save event was not triggered by Save File or SaveAll commands
@@ -491,6 +411,11 @@ namespace ClangPowerTools
       FormatCommand.Instance.FormatDocument(aDocument, option, CommandUILocation.Toolbar);
     }
 
+    private bool FileHasExtension(string filePath, string fileExtensions)
+    {
+      var extensions = fileExtensions.ToLower().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+      return extensions.Contains(Path.GetExtension(filePath).ToLower());
+    }
 
     private bool SkipFile(string aFilePath, string aSkipFiles)
     {
@@ -498,20 +423,29 @@ namespace ClangPowerTools
       return skipFilesList.Contains(Path.GetFileName(aFilePath).ToLower());
     }
 
-
-    private bool FileHasExtension(string filePath, string fileExtensions)
+    private async System.Threading.Tasks.Task OnMSVCBuildSucceededAsync()
     {
-      var extensions = fileExtensions.ToLower().Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-      return extensions.Contains(Path.GetExtension(filePath).ToLower());
+      if (!CompileCommand.Instance.VsCompileFlag)
+        return;
+
+      var exitCode = int.MaxValue;
+      if (VsServiceProvider.TryGetService(typeof(DTE), out object dte))
+        exitCode = (dte as DTE2).Solution.SolutionBuild.LastBuildInfo;
+
+      // VS compile detected errors and there is not necessary to run clang compile
+      if (0 != exitCode)
+      {
+        CompileCommand.Instance.VsCompileFlag = false;
+        return;
+      }
+
+      // Run clang compile after the VS compile succeeded
+
+      OnBeforeClangCommand(CommandIds.kCompileId);
+      await CompileCommand.Instance.RunClangCompileAsync(CommandIds.kCompileId, CommandUILocation.ContextMenu);
+      CompileCommand.Instance.VsCompileFlag = false;
+      OnAfterClangCommand();
     }
-
-
-    public void CommandEventsBeforeExecute(string aGuid, int aId, object aCustomIn, object aCustomOut, ref bool aCancelDefault)
-    {
-      BeforeExecuteClangCompile(aGuid, aId);
-      BeforeExecuteClangTidy(aGuid, aId);
-    }
-
 
     private void BeforeExecuteClangCompile(string aGuid, int aId)
     {
@@ -527,7 +461,6 @@ namespace ClangPowerTools
       CompileCommand.Instance.VsCompileFlag = true;
     }
 
-
     private void BeforeExecuteClangTidy(string aGuid, int aId)
     {
       string commandName = GetCommandName(aGuid, aId);
@@ -537,6 +470,68 @@ namespace ClangPowerTools
         return;
       }
       mSaveCommandWasGiven = true;
+    }
+
+    #endregion
+
+
+    #region Events
+
+    /// <summary>
+    /// It is called before every command. Update the running state.  
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    public void OnBeforeClangCommand(object sender, EventArgs e)
+    {
+      UIUpdater.Invoke(() =>
+      {
+        if (!(sender is OleMenuCommand command))
+          return;
+
+        if (VsServiceProvider.TryGetService(typeof(DTE), out object dte) && !(dte as DTE2).Solution.IsOpen)
+        { 
+          command.Visible = command.Enabled = false;
+        }
+        else if (vsBuildRunning && command.CommandID.ID != CommandIds.kSettingsId)
+        { 
+          command.Visible = command.Enabled = false;
+        }
+        else
+        { 
+          command.Visible = command.Enabled = command.CommandID.ID != CommandIds.kStopClang ? !running : running;
+        }
+      });
+    }
+
+    /// <summary>
+    /// Set the VS running build flag to true when the VS build begin.
+    /// </summary>
+    /// <param name="Scope"></param>
+    /// <param name="Action"></param>
+    public void OnMSVCBuildBegin(vsBuildScope Scope, vsBuildAction Action) => vsBuildRunning = true;
+
+    /// <summary>
+    /// Set the VS running build flag to false when the VS build finished.
+    /// </summary>
+    /// <param name="Scope"></param>
+    /// <param name="Action"></param>
+    public void OnMSVCBuildDone(vsBuildScope Scope, vsBuildAction Action)
+    {
+      vsBuildRunning = false;
+      OnMSVCBuildSucceededAsync();
+    }
+
+    public void OnBeforeSave(object sender, Document aDocument)
+    {
+      BeforeSaveClangTidy();
+      BeforeSaveClangFormat(aDocument);
+    }
+
+    public void CommandEventsBeforeExecute(string aGuid, int aId, object aCustomIn, object aCustomOut, ref bool aCancelDefault)
+    {
+      BeforeExecuteClangCompile(aGuid, aId);
+      BeforeExecuteClangTidy(aGuid, aId);
     }
 
     #endregion
