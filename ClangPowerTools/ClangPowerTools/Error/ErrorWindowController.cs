@@ -36,7 +36,11 @@ namespace ClangPowerTools
         }
 
         ResumeRefresh();
-        BringToFront();
+
+        if (e.IsErrorWindowFocused)
+        {
+          BringToFront();
+        }
       }).SafeFireAndForget();
     }
 
