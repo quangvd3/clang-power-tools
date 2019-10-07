@@ -13,7 +13,6 @@ using System.IO;
 using System.Linq;
 using Task = System.Threading.Tasks.Task;
 using ClangPowerTools.MVVM.Controllers;
-using System.Net.Http;
 
 namespace ClangPowerTools
 {
