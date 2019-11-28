@@ -270,6 +270,7 @@ Add-Type -TypeDefinition @"
   , "$PSScriptRoot\psClang\msbuild-project-data.ps1"
   , "$PSScriptRoot\psClang\get-header-references.ps1"
   , "$PSScriptRoot\psClang\itemdefinition-context.ps1"
+  , "$PSScriptRoot\psClang\jsoncompilationdb-support.ps1"
   ) | ForEach-Object { . $_ }
 
 #-------------------------------------------------------------------------------------------------
@@ -856,6 +857,14 @@ Function Get-ProjectFileSetting( [Parameter(Mandatory=$true)] [string] $fileFull
   throw "Could not find $propertyName for $fileFullName. No default value specified."
 }
 
+Function Process-ProcessCompilationDb( [Parameter(Mandatory=$true)][string]        $projPath
+                                     , [Parameter(Mandatory=$true) ][WorkloadType] $workloadType
+                                     )
+{
+  $clangJobs = GetJobs-CompilationDb $projPath -workloadType $workloadType
+  Run-ClangJobs -clangJobs $clangJobs -workloadType $workloadType
+}
+
 Function Process-Project( [Parameter(Mandatory=$true)][string]       $vcxprojPath
                         , [Parameter(Mandatory=$true)][WorkloadType] $workloadType)
 {
@@ -1323,37 +1332,45 @@ else
   }
 }
 
-[System.IO.FileInfo[]] $global:cptProjectsBucket = $projectsToProcess
+[WorkloadType] $workloadType = [WorkloadType]::Compile
 
-[int] $localProjectCounter = $projectsToProcess.Length;
-foreach ($project in $projectsToProcess)
+if (![string]::IsNullOrEmpty($aTidyFlags))
 {
-  if ($localProjectCounter -gt $global:cptProjectCounter)
+  $workloadType = [WorkloadType]::Tidy
+}
+
+if (![string]::IsNullOrEmpty($aTidyFixFlags))
+{
+  $workloadType = [WorkloadType]::TidyFix
+}
+
+if ($aVcxprojToCompile[0].EndsWith("json"))
+{
+  Write-Output "JSON Compilation DB"
+  Process-ProcessCompilationDb -projPath $aVcxprojToCompile[0] -workloadType $workloadType
+}
+else
+{
+  [System.IO.FileInfo[]] $global:cptProjectsBucket = $projectsToProcess
+
+  [int] $localProjectCounter = $projectsToProcess.Length;
+  foreach ($project in $projectsToProcess)
   {
-    $localProjectCounter--;
-    continue
+    if ($localProjectCounter -gt $global:cptProjectCounter)
+    {
+      $localProjectCounter--;
+      continue
+    }
+
+    [string] $vcxprojPath = $project.FullName;
+
+    Write-Output ("PROJECT$(if ($localProjectCounter -gt 1) { " #$localProjectCounter" } else { } ): " + $vcxprojPath)
+    Process-Project -vcxprojPath $vcxprojPath -workloadType $workloadType
+    Write-Output "" # empty line separator
+
+    $localProjectCounter -= 1
+    $global:cptProjectCounter = $localProjectCounter
   }
-
-  [string] $vcxprojPath = $project.FullName;
-
-  [WorkloadType] $workloadType = [WorkloadType]::Compile
-
-  if (![string]::IsNullOrEmpty($aTidyFlags))
-  {
-     $workloadType = [WorkloadType]::Tidy
-  }
-
-  if (![string]::IsNullOrEmpty($aTidyFixFlags))
-  {
-     $workloadType = [WorkloadType]::TidyFix
-  }
-
-  Write-Output ("PROJECT$(if ($localProjectCounter -gt 1) { " #$localProjectCounter" } else { } ): " + $vcxprojPath)
-  Process-Project -vcxprojPath $vcxprojPath -workloadType $workloadType
-  Write-Output "" # empty line separator
-
-  $localProjectCounter -= 1
-  $global:cptProjectCounter = $localProjectCounter
 }
 
 if ($global:FoundErrors)
