@@ -397,6 +397,13 @@ Function Get-Projects()
     }
   }
 
+  # get JSON compilation databases
+  $dbs = Get-ChildItem "compile_commands.json" -Recurse
+  foreach ($db in $dbs)
+  {
+    $projects += $db.FullName
+  }
+
   return ($projects | Select -Unique);
 }
 
@@ -1344,33 +1351,33 @@ if (![string]::IsNullOrEmpty($aTidyFixFlags))
   $workloadType = [WorkloadType]::TidyFix
 }
 
-if ($aVcxprojToCompile[0].EndsWith("json"))
-{
-  Write-Output "JSON Compilation DB"
-  Process-ProcessCompilationDb -projPath $aVcxprojToCompile[0] -workloadType $workloadType
-}
-else
-{
-  [System.IO.FileInfo[]] $global:cptProjectsBucket = $projectsToProcess
+[System.IO.FileInfo[]] $global:cptProjectsBucket = $projectsToProcess
 
-  [int] $localProjectCounter = $projectsToProcess.Length;
-  foreach ($project in $projectsToProcess)
+[int] $localProjectCounter = $projectsToProcess.Length;
+foreach ($project in $projectsToProcess)
+{
+  if ($localProjectCounter -gt $global:cptProjectCounter)
   {
-    if ($localProjectCounter -gt $global:cptProjectCounter)
-    {
-      $localProjectCounter--;
-      continue
-    }
-
-    [string] $vcxprojPath = $project.FullName;
-
-    Write-Output ("PROJECT$(if ($localProjectCounter -gt 1) { " #$localProjectCounter" } else { } ): " + $vcxprojPath)
-    Process-Project -vcxprojPath $vcxprojPath -workloadType $workloadType
-    Write-Output "" # empty line separator
-
-    $localProjectCounter -= 1
-    $global:cptProjectCounter = $localProjectCounter
+    $localProjectCounter--;
+    continue
   }
+
+  [string] $vcxprojPath = $project.FullName;
+
+  Write-Output ("PROJECT$(if ($localProjectCounter -gt 1) { " #$localProjectCounter" } else { } ): " + $vcxprojPath)
+
+  if ($vcxprojPath.EndsWith("json"))
+  {
+    Process-ProcessCompilationDb -projPath $vcxprojPath -workloadType $workloadType
+  }
+  else
+  {
+    Process-Project -vcxprojPath $vcxprojPath -workloadType $workloadType
+  }
+  Write-Output "" # empty line separator
+
+  $localProjectCounter -= 1
+  $global:cptProjectCounter = $localProjectCounter
 }
 
 if ($global:FoundErrors)
